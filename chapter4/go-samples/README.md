@@ -13,10 +13,10 @@
 
 4) You should see a set of log entries in the nats-server console similar to below
 
-`[1420936] 2021/05/23 16:39:17.273691 [TRC] 127.0.0.1:41878 - cid:4 - <<- [CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.11.0","protocol":1,"echo":true,"headers":true,"no_responders":true}]
-[1420936] 2021/05/23 16:39:17.274182 [TRC] 127.0.0.1:41878 - cid:4 - "v1.11.0:go" - <<- [PING]
-[1420936] 2021/05/23 16:39:17.274390 [TRC] 127.0.0.1:41878 - cid:4 - "v1.11.0:go" - ->> [PONG]
-[1420936] 2021/05/23 16:39:17.275034 [TRC] 127.0.0.1:41878 - cid:4 - "v1.11.0:go" - <<- [PUB hello 5]
-[1420936] 2021/05/23 16:39:17.275107 [TRC] 127.0.0.1:41878 - cid:4 - "v1.11.0:go" - <<- MSG_PAYLOAD: ["world"]
-[1420936] 2021/05/23 16:39:17.275138 [TRC] 127.0.0.1:41878 - cid:4 - "v1.11.0:go" - <<- [PING]
-[1420936] 2021/05/23 16:39:17.275158 [TRC] 127.0.0.1:41878 - cid:4 - "v1.11.0:go" - ->> [PONG]`
+`[2988049] 2021/05/28 18:01:37.469037 [TRC] 127.0.0.1:43476 - cid:3 - <<- [CONNECT {"verbose":false,"pedantic":false,"tls_required":false,"name":"","lang":"go","version":"1.11.0","protocol":1,"echo":true,"headers":true,"no_responders":true}]
+[2988049] 2021/05/28 18:01:37.469313 [TRC] 127.0.0.1:43476 - cid:3 - "v1.11.0:go" - <<- [PING]
+[2988049] 2021/05/28 18:01:37.469378 [TRC] 127.0.0.1:43476 - cid:3 - "v1.11.0:go" - ->> [PONG]
+[2988049] 2021/05/28 18:01:37.475668 [TRC] 127.0.0.1:43476 - cid:3 - "v1.11.0:go" - <<- [PUB patient.profile 18]
+[2988049] 2021/05/28 18:01:37.475742 [TRC] 127.0.0.1:43476 - cid:3 - "v1.11.0:go" - <<- MSG_PAYLOAD: ["{\"name\":\"parakum\"}"]
+[2988049] 2021/05/28 18:01:37.475772 [TRC] 127.0.0.1:43476 - cid:3 - "v1.11.0:go" - <<- [PING]
+[2988049] 2021/05/28 18:01:37.475785 [TRC] 127.0.0.1:43476 - cid:3 - "v1.11.0:go" - ->> [PONG]`

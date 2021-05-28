@@ -19,7 +19,7 @@ func main() {
 	defer nc.Close()
 
 	// Publish a message on "hello" subject
-	subj, msg := "hello", []byte("world")
+	subj, msg := "patient.profile", []byte("{\"name\":\"parakum\"}")
 	nc.Publish(subj, msg)
 
 	nc.Flush()
