@@ -25,19 +25,8 @@ type Server struct {
 	*shared.Component
 }
 
-// func dbConn()(db *sql.DB) {
-// 	dbDriver := "mysql"
-// 	dbUser := "root"
-// 	dbPass := "Root@1985"
-// 	dbName := "opd_data"
-// 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	return db
-// }
 
-// Listen to release events and update the temporary table
+// ListenReleaseEvents Listen to release events and update the temporary table
 func (s *Server) ListenReleaseEvents() error {
 	nc := s.NATS()
 	nc.Subscribe("patient.release", func(msg *nats.Msg) {
@@ -58,9 +47,6 @@ func (s *Server) ListenReleaseEvents() error {
 			panic(err.Error())
 		}
 		insForm.Exec(req.ID, req.Time, req.NextState, req.PostMedication, req.Notes)
-		//log.Println("INSERT: Name: " + name + " | City: " + city)
-		
-		//defer db.Close()
 
 	})
 
@@ -99,7 +85,6 @@ func (s *Server) HandlePendingView(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(releases)
 	json.NewEncoder(w).Encode(releases)
-    //defer db.Close()
 }
 
 // HandleDischargeRecord processes patient discharge requests.
@@ -126,7 +111,6 @@ func (s *Server) HandleDischargeRecord(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	insForm.Exec(discharge.ID, discharge.Time, discharge.State, discharge.PostMedication, discharge.Notes, discharge.NextVisit)
-	//log.Println("INSERT: Name: " + name + " | City: " + city)
 
 	// Remove the entry from pending release table if it exists
 	removeData, err := db.Prepare("DELETE FROM release_reports WHERE id=?")
@@ -135,8 +119,6 @@ func (s *Server) HandleDischargeRecord(w http.ResponseWriter, r *http.Request) {
 	}
 	removeData.Exec(discharge.ID)
     
-    //defer db.Close()
-
 	// Send admission  request if required
 	if discharge.State == "admission" {
 		discharge.RequestID = nuid.Next()

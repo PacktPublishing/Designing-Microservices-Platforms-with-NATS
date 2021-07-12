@@ -1,6 +1,6 @@
 package shared
 
-// RegistrationRequest is the request to register a patient.
+// RegistrationRequest contains data about the patient.
 type RegistrationRequest struct {
 	// Full Name of the patient.
 	FullName string `json:"full_name,omitempty"`
@@ -14,10 +14,10 @@ type RegistrationRequest struct {
 	// Sexual orientation 
 	Sex string `json:"sex,omitempty"`
 
-	// Sexual orientation 
+	// Email address 
 	Email string `json:"email,omitempty"`	
 
-	// Sexual orientation 
+	// Phone number 
 	Phone int `json:"phone,omitempty"`	
 
 	// Other details
@@ -27,6 +27,7 @@ type RegistrationRequest struct {
 	RequestID string `json:"request_id,omitempty"`
 }
 
+// RegistrationEvent contains the details for a given registration instance
 type RegistrationEvent struct {
 	// ID of the patient
 	ID int `json:"id"`
@@ -35,7 +36,7 @@ type RegistrationEvent struct {
 	Token uint64 `json:"token"`
 }
 
-// RegistrationRequest is the request to register a patient.
+// InspectionRequest contains data related to patient inspection.
 type InspectionRequest struct {
 	// National Identification Number of the patient.
 	ID int `json:"id"`
@@ -59,7 +60,7 @@ type InspectionRequest struct {
 	RequestID string `json:"request_id,omitempty"`
 }
 
-// TestRequest is the request to do a test on a patient.
+// TestRequest contains data related to tests carried out for patients.
 type TestRequest struct {
 	// National Identification Number of the patient.
 	ID int `json:"id"`
@@ -67,7 +68,7 @@ type TestRequest struct {
 	// Time the inspection was done.
 	Time string `json:"time,omitempty"`
 
-	// Observations from the inspection.
+	// Name of the test.
 	TestName string `json:"test_name,omitempty"`
 
 	// Test results 
@@ -83,7 +84,7 @@ type TestRequest struct {
 	RequestID string `json:"request_id,omitempty"`
 }
 
-// MedicationRequest is the request to report a medication instance on a patient.
+// MedicationRequest contains data related to medication of a patient.
 type MedicationRequest struct {
 	// National Identification Number of the patient.
 	ID int `json:"id"`
@@ -101,7 +102,7 @@ type MedicationRequest struct {
 	RequestID string `json:"request_id,omitempty"`
 }
 
-// MedicationRequest is the request to report a medication instance on a patient.
+// DischargeRequest contains details of patient discharge.
 type DischargeRequest struct {
 	// National Identification Number of the patient.
 	ID int `json:"id"`
@@ -109,10 +110,10 @@ type DischargeRequest struct {
 	// Time the inspection was done.
 	Time string `json:"time,omitempty"`
 
-	// Details of the dose of medication.
+	// State of the discharge.
 	State string `json:"test_name,omitempty"`	
 
-	// Details of the dose of medication.
+	// Details of the medication after release.
 	PostMedication string `json:"post_medication,omitempty"`
 
 	// Special notes 
@@ -125,19 +126,19 @@ type DischargeRequest struct {
 	RequestID string `json:"request_id,omitempty"`
 }
 
-// AdmissionEvent is the request to admit a patient.
+// AdmissionEvent contains data on patient admission to the hospital.
 type AdmissionEvent struct {
 	// National Identification Number of the patient.
 	ID int `json:"id"`
 
-	// Medication schedule 
+	// Time of the admission request 
 	Time string `json:"time,omitempty"`	
 
 	// Special notes 
 	Notes string `json:"notes,omitempty"`	
 }
 
-// RegistrationRequest is the request to register a patient.
+// ReleaseEvent contains data on the patient release.
 type ReleaseEvent struct {
 	// National Identification Number of the patient.
 	ID int `json:"id"`
@@ -145,10 +146,10 @@ type ReleaseEvent struct {
 	// Time of the release event
 	Time string `json:"time"`
 
-	// Medication schedule 
+	// NextState of the patient 
 	NextState string `json:"next_state,omitempty"`
 
-	// Tests to be carried out 
+	// Medication after release 
 	PostMedication string `json:"post_medication,omitempty"`	
 
 	// Special notes 
@@ -158,7 +159,7 @@ type ReleaseEvent struct {
 	RequestID string `json:"request_id,omitempty"`
 }
 
-// RegistrationRequest is the request to register a patient.
+// InspectionEvent contains data on inspection activities.
 type InspectionEvent struct {
 	// National Identification Number of the patient.
 	ID int `json:"id"`

@@ -28,7 +28,7 @@ type Server struct {
 
 var ops uint64
 
-// Generate token number for patient
+// generateTokenNumber Generate token number for patient
 func generateTokenNumber(start uint64) uint64 {
   if start > 0 {
 	ops = start
@@ -70,18 +70,6 @@ func (s *Server) HandleToken(w http.ResponseWriter, r *http.Request) {
 }
 
 
-// func (s *Server) DBConn()(db *sql.DB) {
-// 	dbDriver := "mysql"
-// 	dbUser := "root"
-// 	dbPass := "Root@1985"
-// 	dbName := "opd_data"
-// 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	return db
-// }
-
 // HandleRegister processes patient registration requests.
 func (s *Server) HandleRegister(w http.ResponseWriter, r *http.Request) {
 
@@ -106,9 +94,6 @@ func (s *Server) HandleRegister(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	insForm.Exec(registration.ID, registration.FullName, registration.Address, registration.Sex, registration.Phone, registration.Remarks)
-	//log.Println("INSERT: Name: " + name + " | City: " + city)
-    
-    //defer db.Close()
 
 	// Tag the request with an ID for tracing in the logs.
 	registration.RequestID = nuid.Next()
@@ -157,9 +142,7 @@ func (s *Server) HandleUpdate(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	insForm.Exec(request.FullName, request.Address, request.Sex, request.Phone, request.Remarks, request.ID)
-	//log.Println("UPDATE: Name: " + name + " | City: " + city)
-    
-    //defer db.Close()
+
 	json.NewEncoder(w).Encode("Record for Patient updated sucessfully")
 }
 
@@ -192,7 +175,6 @@ func (s *Server) HandleView(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(registration)
 	json.NewEncoder(w).Encode(registration)
-    //defer db.Close()
 }
 
 func (s *Server) HandleHomeLink(w http.ResponseWriter, r *http.Request) {

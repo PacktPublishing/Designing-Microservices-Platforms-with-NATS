@@ -25,19 +25,7 @@ type Server struct {
 	*shared.Component
 }
 
-
-// func dbConn()(db *sql.DB) {
-// 	dbDriver := "mysql"
-// 	dbUser := "root"
-// 	dbPass := "Root@1985"
-// 	dbName := "opd_data"
-// 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	return db
-// }
-
+// ListenTreatmentEvents listens to events coming from inspection service
 func (s *Server) ListenTreatmentEvents() error {
 	nc := s.NATS()
 	nc.Subscribe("patient.treatment", func(msg *nats.Msg) {
@@ -50,7 +38,7 @@ func (s *Server) ListenTreatmentEvents() error {
 		log.Printf("New Patient Inspection Event received for PatientID %d\n",
 			req.ID)
 
-			// Insert data to the database
+		// Insert data to the database
 		db := s.DB()
 
 		insForm, err := db.Prepare("INSERT INTO inspection_reports(id, medication, tests, notes) VALUES(?,?,?,?)")
@@ -58,9 +46,6 @@ func (s *Server) ListenTreatmentEvents() error {
 			panic(err.Error())
 		}
 		insForm.Exec(req.ID, req.Medication, req.Tests, req.Notes)
-		//log.Println("INSERT: Name: " + name + " | City: " + city)
-		
-		//defer db.Close()
 
 	})
 
@@ -98,7 +83,6 @@ func (s *Server) HandlePendingView(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(treatments)
 	json.NewEncoder(w).Encode(treatments)
-    //defer db.Close()
 }
 
 // HandleRelease processes requests to initiate a patient release.
@@ -164,35 +148,12 @@ func (s *Server) HandleTestRecord(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	insForm.Exec(test.ID, test.Time, test.TestName, test.Results, test.Status, test.Notes)
-	//log.Println("INSERT: Name: " + name + " | City: " + city)
-    
-    //defer db.Close()
-
-	// // Tag the request with an ID for tracing in the logs.
-	// inspection.RequestID = nuid.Next()
-	// fmt.Println(inspection)
-
-	// // Publish event to the NATS server
-	// nc := s.NATS()
-
-	// //var registration_event shared.RegistrationEvent
-	// inspection_event := shared.InspectionEvent{inspection.ID, inspection.Medication, inspection.Tests, inspection.Notes}
-	// reg_event, err := json.Marshal(inspection_event)
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// 	return
-	// }
-
-	// log.Printf("requestID:%s - Publishing inspection event with patientID %d\n", inspection.RequestID, inspection.ID)
-	// // Publishing the message to NATS Server
-	// nc.Publish("patient.treatment", reg_event)
 
 	json.NewEncoder(w).Encode("Test recorded successfully")
 }
 
 
-// HandleRegister processes patient registration requests.
+// HandleMedicationRecord processes patient medication record requests.
 func (s *Server) HandleMedicationRecord(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
@@ -216,7 +177,6 @@ func (s *Server) HandleMedicationRecord(w http.ResponseWriter, r *http.Request) 
 		panic(err.Error())
 	}
 	insForm.Exec(medication.ID, medication.Time, medication.Dose, medication.Notes)
-	//log.Println("INSERT: Name: " + name + " | City: " + city)
 
 	// Remove the entry from pending medication table if it exists
 	removeData, err := db.Prepare("DELETE FROM inspection_reports WHERE id=?")
@@ -224,33 +184,11 @@ func (s *Server) HandleMedicationRecord(w http.ResponseWriter, r *http.Request) 
 		panic(err.Error())
 	}
 	removeData.Exec(medication.ID)
-    
-    //defer db.Close()
-
-	// // Tag the request with an ID for tracing in the logs.
-	// medication.RequestID = nuid.Next()
-	// fmt.Println(inspection)
-
-	// // Publish event to the NATS server
-	// nc := s.NATS()
-
-	// //var registration_event shared.RegistrationEvent
-	// inspection_event := shared.InspectionEvent{inspection.ID, inspection.Medication, inspection.Tests, inspection.Notes}
-	// reg_event, err := json.Marshal(inspection_event)
-
-	// if err != nil {
-	// 	log.Fatal(err)
-	// 	return
-	// }
-
-	// log.Printf("requestID:%s - Publishing inspection event with patientID %d\n", inspection.RequestID, inspection.ID)
-	// // Publishing the message to NATS Server
-	// nc.Publish("patient.treatment", reg_event)
 
 	json.NewEncoder(w).Encode("Record updated successfully")
 }
 
-// HandleView processes requests to view test data.
+// HandleTestView processes requests to view test data.
 func (s *Server) HandleTestView(w http.ResponseWriter, r *http.Request) {
 	patientID := mux.Vars(r)["id"]
 	// Insert data to the database
@@ -264,7 +202,6 @@ func (s *Server) HandleTestView(w http.ResponseWriter, r *http.Request) {
 	type allReports []shared.TestRequest
 	var reports = allReports{}
 
-    //registration := shared.RegistrationRequest{}
     for selDB.Next() {
 		var newReport shared.TestRequest
         var id int
@@ -287,10 +224,10 @@ func (s *Server) HandleTestView(w http.ResponseWriter, r *http.Request) {
     //defer db.Close()
 }
 
-// HandleView processes requests to view patient data.
+// HandleHistoryView processes requests to view medication history data.
 func (s *Server) HandleHistoryView(w http.ResponseWriter, r *http.Request) {
 	patientID := mux.Vars(r)["id"]
-	// Insert data to the database
+	// Select data from the database
 	db := s.DB()
 
 	selDB, err := db.Query("SELECT * FROM medication_reports WHERE ID=?", patientID)
@@ -301,7 +238,6 @@ func (s *Server) HandleHistoryView(w http.ResponseWriter, r *http.Request) {
 	type allMedications []shared.MedicationRequest
 	var medications = allMedications{}
 
-    //registration := shared.RegistrationRequest{}
     for selDB.Next() {
 		var newMedication shared.MedicationRequest
         var id int
@@ -319,7 +255,6 @@ func (s *Server) HandleHistoryView(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(medications)
 	json.NewEncoder(w).Encode(medications)
-    //defer db.Close()
 }
 
 func (s *Server) HandleHomeLink(w http.ResponseWriter, r *http.Request) {
