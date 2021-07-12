@@ -11,7 +11,7 @@ import (
 )
 
 // Component is contains reusable logic related to handling
-// of the connection to NATS in the system.
+// of the connection to NATS and Database in the system.
 type Component struct {
 	// cmu is the lock from the component.
 	cmu sync.Mutex

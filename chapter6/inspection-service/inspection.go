@@ -25,19 +25,7 @@ type Server struct {
 	*shared.Component
 }
 
-
-// func dbConn()(db *sql.DB) {
-// 	dbDriver := "mysql"
-// 	dbUser := "root"
-// 	dbPass := "Root@1985"
-// 	dbName := "opd_data"
-// 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
-// 	if err != nil {
-// 		panic(err.Error())
-// 	}
-// 	return db
-// }
-
+// Listen to patient registration events
 func (s *Server) ListenRegisterEvents() error {
 	nc := s.NATS()
 	nc.Subscribe("patient.register", func(msg *nats.Msg) {
@@ -50,7 +38,7 @@ func (s *Server) ListenRegisterEvents() error {
 		log.Printf("New Patient Registration Event received for PatientID %d with Token  %d\n",
 			req.ID, req.Token)
 
-			// Insert data to the database
+		// Insert data to the database
 		db := s.DB()
 
 		insForm, err := db.Prepare("INSERT INTO patient_registrations(id, token) VALUES(?,?)")
@@ -58,9 +46,6 @@ func (s *Server) ListenRegisterEvents() error {
 			panic(err.Error())
 		}
 		insForm.Exec(req.ID, req.Token)
-		//log.Println("INSERT: Name: " + name + " | City: " + city)
-		
-		//defer db.Close()
 
 	})
 
@@ -96,11 +81,10 @@ func (s *Server) HandlePending(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(registrations)
 	json.NewEncoder(w).Encode(registrations)
-    //defer db.Close()
 }
 
 
-// HandleRegister processes patient registration requests.
+// HandleRecord processes patient inspection record requests.
 func (s *Server) HandleRecord(w http.ResponseWriter, r *http.Request) {
 
 	body, err := ioutil.ReadAll(r.Body)
@@ -124,7 +108,6 @@ func (s *Server) HandleRecord(w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 	insForm.Exec(inspection.ID, inspection.Time, inspection.Observations, inspection.Medication, inspection.Tests, inspection.Notes)
-	//log.Println("INSERT: Name: " + name + " | City: " + city)
 
 	// Remove the entry from pending inspections table if it exists
 	removeData, err := db.Prepare("DELETE FROM patient_registrations WHERE id=?")
@@ -133,8 +116,6 @@ func (s *Server) HandleRecord(w http.ResponseWriter, r *http.Request) {
 	}
 	removeData.Exec(inspection.ID)
     
-    //defer db.Close()
-
 	// Tag the request with an ID for tracing in the logs.
 	inspection.RequestID = nuid.Next()
 	fmt.Println(inspection)
@@ -142,7 +123,6 @@ func (s *Server) HandleRecord(w http.ResponseWriter, r *http.Request) {
 	// Publish event to the NATS server
 	nc := s.NATS()
 
-	//var registration_event shared.RegistrationEvent
 	inspection_event := shared.InspectionEvent{inspection.ID, inspection.Medication, inspection.Tests, inspection.Notes}
 	reg_event, err := json.Marshal(inspection_event)
 
@@ -158,10 +138,10 @@ func (s *Server) HandleRecord(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(inspection_event)
 }
 
-// HandleView processes requests to view patient data.
+// HandleHistory processes requests to view inspection history.
 func (s *Server) HandleHistory(w http.ResponseWriter, r *http.Request) {
 	patientID := mux.Vars(r)["id"]
-	// Insert data to the database
+	// Read data from the database
 	db := s.DB()
 
 	selDB, err := db.Query("SELECT * FROM inspection_details WHERE ID=?", patientID)
@@ -172,7 +152,6 @@ func (s *Server) HandleHistory(w http.ResponseWriter, r *http.Request) {
 	type allInspections []shared.InspectionRequest
 	var inspections = allInspections{}
 
-    //registration := shared.RegistrationRequest{}
     for selDB.Next() {
 		var newInspection shared.InspectionRequest
         var id int
@@ -192,9 +171,9 @@ func (s *Server) HandleHistory(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println(inspections)
 	json.NewEncoder(w).Encode(inspections)
-    //defer db.Close()
 }
 
+// HandleHomeLink respond with the version of the service
 func (s *Server) HandleHomeLink(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, fmt.Sprintf("Inspection Service v%s\n", Version))
 }
