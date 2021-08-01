@@ -1,0 +1,18 @@
+{
+    "CN": "nats server",
+    "hosts": [
+        "*.nats.example.com",
+        "nats.example.com"
+    ],
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "US",
+            "L": "CA",
+            "ST": "San Francisco"
+        }
+    ]
+}
