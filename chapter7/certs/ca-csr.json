@@ -1,0 +1,16 @@
+{
+    "CN": "NATS Book CA",
+    "key": {
+        "algo": "rsa",
+        "size": 2048
+    },
+    "names": [
+        {
+            "C": "US",
+            "L": "CA",
+            "O": "NATS Book Company",
+            "ST": "San Francisco",
+            "OU": "Org Unit 1"
+        }
+    ]
+}
