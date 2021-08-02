@@ -1,0 +1,5 @@
+export REGISTRATION_PASS=reg123;
+export INSPECTION_PASS=ins123;
+export TREATMENT_PASS=trt123;
+export RELEASE_PASS=rel123;
+export ADMIN_PASS=admin123;
