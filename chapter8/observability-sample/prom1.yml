@@ -1,0 +1,21 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: publisher 
+    metrics_path: /publisher/metrics
+    static_configs:
+      - targets:
+        - localhost:9001
+  - job_name: subscriber 
+    metrics_path: /subscriber/metrics
+    static_configs:
+      - targets:
+        - localhost:9000
+  - job_name: 'nats-test-server'
+    static_configs:
+      - targets: ['localhost:7777']
