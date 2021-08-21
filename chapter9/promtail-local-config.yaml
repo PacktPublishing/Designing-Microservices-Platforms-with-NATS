@@ -1,0 +1,61 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://localhost:3100/loki/api/v1/push
+
+scrape_configs:
+- job_name: system
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: varlogs
+      __path__: /var/log/*log
+- job_name: publisher
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: publisher
+      __path__: /Users/chanakaf/Documents/source-code/Designing-Microservices-Platforms-with-NATS/chapter8/observability-sample/publisher/publisher.log
+- job_name: subscriber
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: subscriber
+      __path__: /Users/chanakaf/Documents/source-code/Designing-Microservices-Platforms-with-NATS/chapter8/observability-sample/subscriber/subscriber.log
+- job_name: NATS-4222
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: nats-4222
+      __path__: /Users/chanakaf/Documents/source-code/Designing-Microservices-Platforms-with-NATS/chapter8/observability-sample/nats.log
+- job_name: wso2-apim-carbon
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: wso2-apim-carbon
+      __path__: /Users/chanakaf/Documents/source-code/certs/wso2am-4.0.0/repository/logs/wso2carbon.log
+- job_name: wso2-apim-audit
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: wso2-apim-audit
+      __path__: /Users/chanakaf/Documents/source-code/certs/wso2am-4.0.0/repository/logs/audit.log
+- job_name: wso2-apim-errors
+  static_configs:
+  - targets:
+      - localhost
+    labels:
+      job: wso2-apim-errors
+      __path__: /Users/chanakaf/Documents/source-code/certs/wso2am-4.0.0/repository/logs/wso2-apigw-errors.log
+
