@@ -3,7 +3,11 @@
 
 `./nats-server -V`
 
-2) Run the sample
+2) Install the dependencies
+
+`pip install -r requirements.txt`
+
+3) Run the sample
 
 `python3 sample.py`
 
