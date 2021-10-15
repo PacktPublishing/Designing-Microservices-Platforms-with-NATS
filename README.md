@@ -28,8 +28,11 @@ All of the code is organized into folders. For example, Chapter02.
 The code will look like the following:
 ```
 func main() {
+
     // Initialize TracinginitTracing()
+       
        initTracing()     
+	
 	}
 
 ```
