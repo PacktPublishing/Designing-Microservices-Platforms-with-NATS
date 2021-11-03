@@ -17,7 +17,7 @@ This book covers the following exciting features:
 * Discover how to improve the platform’s security and observability
 * Explore how a NATS microservices platform integrates with an enterprise ecosystem
 
-If you feel this book is for you, get your [copy](https://www.amazon.com/dp/B09CQ4T6QK) today!
+If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1801072213) today!
 
 <a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
 alt="https://www.packtpub.com/" border="5" /></a>
@@ -58,7 +58,7 @@ With the following software and hardware list you can run all code files present
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://static.packt-cdn.com/downloads/9781801072212_ColorImages.pdf).
 
 ### Related products
-* Cloud Native Applications with Ballerina [[Packt]](https://www.packtpub.com/product/cloud-native-applications-with-ballerina/9781800200630) [[Amazon]](https://www.amazon.com/dp/B0912GTBPQ)
+* Cloud Native Applications with Ballerina [[Packt]](https://www.packtpub.com/product/cloud-native-applications-with-ballerina/9781800200630) [[Amazon]](https://www.amazon.com/dp/1800200633)
 
 * Practical Cloud-Native Java Development with MicroProfile [[Packt]](https://www.packtpub.com/product/practical-cloud-native-java-development-with-microprofile/9781801078801) [[Amazon]](https://www.amazon.com/dp/1801078807)
 
