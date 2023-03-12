@@ -73,7 +73,8 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 **Chanaka Fernando**
 is a solution architect with 12+ years of experience in designing, implementing, and supporting enterprise-scale software solutions for customers across various industries including finance, education, healthcare, and telecommunications. He has contributed to the open source community with his work (design, implementation, and support) as the product lead of the WSO2 ESB, one of the founding members of the "Ballerina: cloud-native programming language" project, and his own work on GitHub. He has spoken at several WSO2 conferences and his articles are published on Medium, DZone, and InfoQ. Chanaka has a bachelor's degree in electronics and telecommunications engineering from the University of Moratuwa.
 
-
+## Special Thanks
+I would like to thank [Waldemar Quevedo](https://github.com/wallyqs) for his work on implementing the original source code that I forked and updated to be used in the context of this book.  
 
 ### Download a free PDF
 
